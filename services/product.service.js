@@ -1,15 +1,17 @@
 const faker = require('faker');
 const boom = require('@hapi/boom');
 
-const pool = require('../libs/postgresql.pool');
+// const pool = require('../libs/postgresql.pool');
+
+const sequelize = require('../libs/sequelize');
 
 class ProductsService {
 
   constructor(){
     this.products = [];
     this.generate();
-    this.pool = pool;
-    this.pool.on('error', (err) => console.err(err));
+    // this.pool = pool;
+    // this.pool.on('error', (err) => console.err(err));
   }
 
   generate() {
@@ -34,11 +36,20 @@ class ProductsService {
     return newProduct;
   }
 
+  // // Aca se usa un pool de datos para obtener resultados
+  // async find() {
+  //   const query = 'SELECT * FROM tasks';
+  //   const rta = await this.pool.query(query);
+
+  //   return rta.rows;
+  // }
+
+  // Utilizando ORM para la obtencion de datos
   async find() {
     const query = 'SELECT * FROM tasks';
-    const rta = await this.pool.query(query);
+    const [data] = await sequelize.query(query);
 
-    return rta.rows;
+    return data;
   }
 
   async findOne(id) {
