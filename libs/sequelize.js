@@ -16,6 +16,6 @@ const sequelize = new Sequelize(URI, {
 
 setupModels(sequelize);
 
-sequelize.sync();
+// sequelize.sync();    -> se desactiva para que las migraciones sean las que creen las tablas de la DB
 
 module.exports = sequelize;
